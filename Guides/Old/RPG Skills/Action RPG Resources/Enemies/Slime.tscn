@@ -1,0 +1,183 @@
+[gd_scene load_steps=24 format=2]
+
+[ext_resource path="res://Action RPG Resources/Enemies/SLIME-PLATFORMER_STRIP_WalkTurn-ty61oy.png" type="Texture" id=1]
+[ext_resource path="res://Action RPG Resources/Hitboxes and Hurtboxes/Hitbox.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Action RPG Resources/Hitboxes and Hurtboxes/Hurtbox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Action RPG Resources/Shadows/MediumShadow.png" type="Texture" id=4]
+[ext_resource path="res://Action RPG Resources/Enemies/Slime.gd" type="Script" id=5]
+[ext_resource path="res://Action RPG Resources/Enemies/WanderController.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Action RPG Resources/Enemies/PlayerDetectionZone.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Action RPG Resources/Stats/Stats.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Action RPG Resources/WhiteShader.tres" type="Material" id=9]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 256, 0, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
+"loop": true,
+"name": "Animation",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 7.37684
+
+[sub_resource type="Animation" id=8]
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 3, 2, 1 ]
+}
+
+[sub_resource type="CircleShape2D" id=9]
+radius = 7.70389
+
+[sub_resource type="CircleShape2D" id=10]
+radius = 5.53019
+
+[sub_resource type="CircleShape2D" id=11]
+radius = 33.5814
+
+[sub_resource type="Animation" id=12]
+resource_name = "Start"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "Stop"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:material:shader_param/active")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "Float"
+length = 1.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1.824, -9.12415 ), Vector2( -1.824, -18 ) ]
+}
+
+[node name="Slime" type="KinematicBody2D"]
+collision_layer = 16
+script = ExtResource( 5 )
+
+[node name="WanderController" parent="." instance=ExtResource( 6 )]
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = ExtResource( 9 )
+position = Vector2( -1.824, -15.1306 )
+scale = Vector2( 0.503879, 0.503879 )
+frames = SubResource( 6 )
+animation = "Animation"
+frame = 1
+
+[node name="Shadow" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.756863 )
+show_behind_parent = true
+position = Vector2( -0.325212, -4.2996 )
+scale = Vector2( 0.820174, 0.820174 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.350769, -6.80491 )
+shape = SubResource( 7 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/slimeAnimation = SubResource( 8 )
+
+[node name="Hurtbox" parent="." instance=ExtResource( 3 )]
+collision_layer = 8
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+position = Vector2( -0.0701561, -6.80493 )
+shape = SubResource( 9 )
+
+[node name="Hitbox" parent="." instance=ExtResource( 2 )]
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+position = Vector2( 1.05231, -6.38401 )
+shape = SubResource( 10 )
+
+[node name="PlayerDetectionZone" parent="." instance=ExtResource( 7 )]
+
+[node name="CollisionShape2D" parent="PlayerDetectionZone" index="0"]
+position = Vector2( 0, -6.92657 )
+shape = SubResource( 11 )
+
+[node name="Stats" parent="." instance=ExtResource( 8 )]
+
+[node name="SlimeBlinkAnimation" type="AnimationPlayer" parent="."]
+autoplay = "Start"
+anims/Start = SubResource( 12 )
+anims/Stop = SubResource( 13 )
+
+[node name="FloatAroundAnimation" type="AnimationPlayer" parent="."]
+anims/Float = SubResource( 14 )
+
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="invincibility_ended" from="Hurtbox" to="." method="_on_Hurtbox_invincibility_ended"]
+[connection signal="invincibility_started" from="Hurtbox" to="." method="_on_Hurtbox_invincibility_started"]
+[connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
+
+[editable path="Hurtbox"]
+[editable path="Hitbox"]
+[editable path="PlayerDetectionZone"]
